@@ -732,7 +732,7 @@
     },
     {
       "id": 74,
-      "name": "Armstrong, Crona and Ziemann",
+      "name": "kiennt",
       "description": "Switchable bifurcated task-force. Hic sed at et id et et qui quis dolores.",
       "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
       "contractTypeId": 2,
@@ -802,13 +802,13 @@
     },
     {
       "id": 81,
-      "name": "Beatty, Boehm and West",
+      "name": "kiennt",
       "description": "Operative high-level emulation. Quos qui dolorum aut voluptatem rerum vel provident necessitatibus dicta.",
       "imageUrl": "/assets/placeimg_500_300_arch4.jpg",
       "contractTypeId": 5,
       "contractSignedOn": "2012-08-09T13:45:53.932Z",
       "budget": 75030,
-      "isActive": true
+      "isActive": false
     },
     {
       "id": 82,

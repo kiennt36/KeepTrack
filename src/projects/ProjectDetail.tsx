@@ -1,6 +1,7 @@
-import { Params, useParams } from "react-router-dom";
-import { Project } from "./Project";
 import { useEffect, useState } from "react";
+import { Params, useParams } from "react-router-dom";
+
+import { Project } from "./Project";
 import { projectAPI } from "./projectAPI";
 
 function ProjectDetail() {

@@ -1,79 +1,34 @@
-import { useEffect, useState } from "react";
-import { Project } from "./Project";
+import { useEffect } from "react";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { useSelector, useDispatch } from "react-redux";
+
+import { AppState } from "../state";
 import ProjectList from "./ProjectList";
-import { projectAPI } from "./projectAPI";
+import { ProjectState } from "../state/projectTypes";
+import { loadProjects } from "../state/projectActions";
 
 const ProjectsPage = () => {
-	const [projects, setProjects] = useState<Project[]>([]);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState<string | null>(null);
-	const [currentPage, setCurrentPage] = useState<number>(1);
+	const loading = useSelector(
+		(appState: AppState) => appState.projectState.loading
+	);
+	const projects = useSelector(
+		(appState: AppState) => appState.projectState.projects
+	);
+	const error = useSelector(
+		(appState: AppState) => appState.projectState.error
+	);
+	const currentPage = useSelector(
+		(appState: AppState) => appState.projectState.page
+	);
+	const dispatch = useDispatch<ThunkDispatch<ProjectState, any, AnyAction>>();
 
 	useEffect(() => {
-		setLoading(true);
-
-		// projectAPI
-		// 	.get(1)
-		// 	.then((data: Project[]) => {
-		// 		setError(null);
-		// 		setProjects(data);
-		// 	})
-		// 	.catch((err: any) => {
-		// 		setError(err.message);
-
-		// 		if(err instanceof Error) {
-		// 			setError(err.message)
-		// 		}
-		// 	})
-		// 	.finally(() => {
-		// 		setLoading(false);
-		// 	});
-
-		async function loadProjects(): Promise<void> {
-			setLoading(true);
-
-			try {
-				const data: Project[] = await projectAPI.get(currentPage);
-				setError(null);
-
-				if (currentPage === 1) {
-					setProjects(data);
-				} else {
-					setProjects((projects: Project[]) => [
-						...projects,
-						...data,
-					]);
-				}
-			} catch (error: any) {
-				if (error instanceof Error) {
-					setError(error.message);
-				}
-			} finally {
-				setLoading(false);
-			}
-		}
-
-		loadProjects();
-	}, [currentPage]);
-
-	const saveProject = (project: Project) => {
-		projectAPI
-			.put(project)
-			.then((updatedProject: Project) => {
-				let updatedProjects = projects.map((p: Project) => {
-					return p.id === updatedProject.id ? updatedProject : p;
-				});
-				setProjects(updatedProjects);
-			})
-			.catch((error: any) => {
-				if (error instanceof Error) {
-					setError(error.message);
-				}
-			});
-	};
+		dispatch(loadProjects(1));
+	}, [dispatch]);
 
 	const handleMoreClick = () => {
-		setCurrentPage((currentPage: number) => currentPage + 1);
+		dispatch(loadProjects(currentPage + 1));
 	};
 
 	return (
@@ -93,7 +48,7 @@ const ProjectsPage = () => {
 				</div>
 			)}
 
-			<ProjectList projects={projects} onSave={saveProject} />
+			<ProjectList projects={projects} />
 
 			{!loading && !error && (
 				<div className="row">

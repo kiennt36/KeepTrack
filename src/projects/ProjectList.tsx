@@ -1,14 +1,14 @@
 import { useState } from "react";
+
 import { Project } from "./Project";
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./ProjectForm";
 
 interface ProjectListProps {
 	projects: Project[];
-	onSave: (project: Project) => void;
 }
 
-function ProjectList({ projects, onSave }: ProjectListProps) {
+function ProjectList({ projects }: ProjectListProps) {
 	const [projectBegingEdited, setProjectBegingEdited] = useState({});
 
 	const handleEdit = (project: Project) => {
@@ -24,7 +24,6 @@ function ProjectList({ projects, onSave }: ProjectListProps) {
 			{project === projectBegingEdited ? (
 				<ProjectForm
 					project={project}
-					onSave={onSave}
 					onCancel={cancelEditting}
 				/>
 			) : (
